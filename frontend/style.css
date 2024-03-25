@@ -1,3 +1,7 @@
+body{
+  background-image: url(/ISA-Project-social-media-trends/frontend/5172658.jpg);
+}
+
 .form {
     position: relative;
     display: block;
@@ -12,7 +16,7 @@
     overflow: hidden;
     z-index: +1;
     margin: 0 auto;
-    margin-top: 220px;
+    margin-top: 100px;
   }
   
   /*------input and submit section-------*/
