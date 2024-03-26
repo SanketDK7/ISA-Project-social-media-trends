@@ -4,22 +4,22 @@ const mongoose = require('mongoose')
 const User = require('./models/user.model.js');
 
 
-app.use(express.json()); // middleware para permitir 
+app.use(express.json()); // middleware configuration
+app.use(express.urlencoded({ extended: false }));
+
+//routes
+app.use('api/users', userRoute);
+
+
+
+
 app.get('/',(req,res)=>{
     res.send("Hello update");
 });
 
 
-//to view listings
-app.get('/api/users', async(req,res) =>{
-    try {
-        const users = await User.find({});
-        res.status(201).json(users);
-        
-    } catch (error) {
-        res.status(500).json({message : error.message});
-    }
-})
+
+
 
 
 
@@ -49,7 +49,7 @@ app.post('/api/users', async(req,res) => {
 
 
 //update user credentials 
-app.put('/api/user/:id', async(req, res) =>{
+app.put('/api/users/:id', async(req, res) =>{
     try {
         const {id} = req.params;
 
@@ -69,7 +69,7 @@ app.put('/api/user/:id', async(req, res) =>{
 
 //delete a user 
 
-app.delete('/api/user/:id', async(req,res) =>{
+app.delete('/api/users/:id', async(req,res) =>{
     try{
         const {id} = req.params;
        const user = await User.findByIdAndDelete(id);
