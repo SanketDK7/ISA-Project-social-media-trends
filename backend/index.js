@@ -21,6 +21,8 @@ app.get('/api/users', async(req,res) =>{
     }
 })
 
+
+
 //get specific id based user 
 app.get('/api/users/:id', async(req,res) =>{
     try {
@@ -43,8 +45,28 @@ app.post('/api/users', async(req,res) => {
         
     }
 
-
 });
+
+
+//update user credentials 
+app.put('/api/user/:id', async(req, res) =>{
+    try {
+        const {id} = req.params;
+
+        const user = await User.findByIdAndUpdate(id, req.body);
+
+        if(!user){
+            return res.status(404).json("No user with this id");
+        }
+        const updatedUser = await User.findById(id);
+        res.status(200).json(updatedUser);
+
+    } catch (error) {
+        res.status(500).json({message: error.message});
+    }
+});
+
+
 
 
 mongoose.connect("mongodb+srv://kshivaniofficial:XH5gDc9RbXC7t4Gg@backenddb.yikx6.mongodb.net/Node-API?retryWrites=true&w=majority&appName=BackendDB")
