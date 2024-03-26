@@ -1,6 +1,9 @@
 const express = require('express')
 const app = express() 
 const mongoose = require('mongoose')
+const userRoute = require('./routes/user.route.js')
+const youtubeRoute = require('./routes/youtube.route.js')
+
 const User = require('./models/user.model.js');
 
 
@@ -8,84 +11,13 @@ app.use(express.json()); // middleware configuration
 app.use(express.urlencoded({ extended: false }));
 
 //routes
-app.use('api/users', userRoute);
+app.use('/api/users', userRoute);
 
-
-
+app.use('/api/youtube', youtubeRoute);
 
 app.get('/',(req,res)=>{
     res.send("Hello update");
 });
-
-
-
-
-
-
-
-//get specific id based user 
-app.get('/api/users/:id', async(req,res) =>{
-    try {
-        const {id} = req.params;
-        const user = await User.findById(id);
-        res.status(200).json(user);      
-    } catch (error) {
-        res.status(500).json({message : error.message});
-    }
-})
-
-
-app.post('/api/users', async(req,res) => {
-    try {
-        const user = await User.create(req.body);
-        res.status(200).json(user);
-        
-    } catch (error) {
-        res.status(500).json({message: error.message});
-        
-    }
-
-});
-
-
-//update user credentials 
-app.put('/api/users/:id', async(req, res) =>{
-    try {
-        const {id} = req.params;
-
-        const user = await User.findByIdAndUpdate(id, req.body);
-
-        if(!user){
-            return res.status(404).json("No user with this id");
-        }
-        const updatedUser = await User.findById(id);
-        res.status(200).json(updatedUser);
-
-    } catch (error) {
-        res.status(500).json({message: error.message});
-    }
-});
-
-
-//delete a user 
-
-app.delete('/api/users/:id', async(req,res) =>{
-    try{
-        const {id} = req.params;
-       const user = await User.findByIdAndDelete(id);
-
-
-        if( !user ) {
-            return res.status(404).json('No user found');
-          
-        }
-        res.status(200).json({message: "Product deleted successfully"});
-
-
-    }catch(error){
-        res.status(500).json({message: error.message});
-    }
-})
 
 
 
