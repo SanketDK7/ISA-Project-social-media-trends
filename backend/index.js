@@ -2,9 +2,16 @@ const express = require('express')
 const app = express() 
 const mongoose = require('mongoose')
 
-app.get('/',(req,res)=>{
 
+app.use(express.json()); // middleware para permitir 
+app.get('/',(req,res)=>{
     res.send("Hello update");
+});
+
+
+app.post('/api/users', (req,res) => {
+    console.log(req.body);
+    res.send(req.body);
 });
 
 
