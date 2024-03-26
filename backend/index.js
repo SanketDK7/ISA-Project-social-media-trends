@@ -67,6 +67,27 @@ app.put('/api/user/:id', async(req, res) =>{
 });
 
 
+//delete a user 
+
+app.delete('/api/user/:id', async(req,res) =>{
+    try{
+        const {id} = req.params;
+       const user = await User.findByIdAndDelete(id);
+
+
+        if( !user ) {
+            return res.status(404).json('No user found');
+          
+        }
+        res.status(200).json({message: "Product deleted successfully"});
+
+
+    }catch(error){
+        res.status(500).json({message: error.message});
+    }
+})
+
+
 
 
 mongoose.connect("mongodb+srv://kshivaniofficial:XH5gDc9RbXC7t4Gg@backenddb.yikx6.mongodb.net/Node-API?retryWrites=true&w=majority&appName=BackendDB")
