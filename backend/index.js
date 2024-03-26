@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express() 
 const mongoose = require('mongoose')
+const User = require('./models/user.model.js');
 
 
 app.use(express.json()); // middleware para permitir 
@@ -9,9 +10,17 @@ app.get('/',(req,res)=>{
 });
 
 
-app.post('/api/users', (req,res) => {
-    console.log(req.body);
-    res.send(req.body);
+app.post('/api/users', async(req,res) => {
+    try {
+        const user = await User.create(req.body);
+        res.status(200).json(user);
+        
+    } catch (error) {
+        res.status(500).json({message: error.message});
+        
+    }
+
+
 });
 
 
