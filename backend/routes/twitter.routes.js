@@ -1,7 +1,15 @@
 const express = require('express');
-const router = express.Router();
-const twitterController = require('../controllers/twitter.controllers.js');
+const { fetchTwitterTrends } = require('./twitter');
 
-router.get('/trends', twitterController.fetchTwitterTrends);
+const app = express();
 
-module.exports = router;
+// Define a route to fetch Twitter trends
+app.get('/twitter/trends', async (req, res) => {
+  await fetchTwitterTrends(req, res);
+});
+
+// Start the server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});

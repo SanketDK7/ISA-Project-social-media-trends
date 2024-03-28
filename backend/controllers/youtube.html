@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YouTube Popular Videos Dashboard</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+  }
+
+  .container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  h1 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .video {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+  }
+
+  .video img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+
+  .video-info {
+    margin-top: 10px;
+  }
+
+  .video-info h3 {
+    margin: 0;
+    font-size: 18px;
+  }
+
+  .video-info p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #666;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>YouTube Popular Videos Dashboard</h1>
+  <div id="videos-container"></div>
+</div>
+
+<script>
+async function fetchPopularVideos() {
+  const apiKey = 'AIzaSyDGAv6ldzEjEr_PvnF_wfiRqiH9_u_4BCQ';
+  const regionCode = 'IN'; // Example: Fetch popular videos in India
+  const videoCategoryId = '10'; // Example: Fetch videos in the 'Music' category
+
+  try {
+    const response = await fetch('http://localhost:3000/popularVideos', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ apiKey, regionCode, videoCategoryId }),
+    });
+
+    const videos = await response.json();
+    displayVideos(videos);
+  } catch (error) {
+    console.error('Error fetching popular videos:', error);
+  }
+}
+
+function displayVideos(videos) {
+  const videosContainer = document.getElementById('videos-container');
+
+  videos.forEach(video => {
+    const videoElement = document.createElement('div');
+    videoElement.classList.add('video');
+
+    const thumbnailElement = document.createElement('img');
+    thumbnailElement.src = `https://img.youtube.com/vi/${video.videoId}/mqdefault.jpg`; // Default thumbnail quality
+    thumbnailElement.alt = video.title;
+    videoElement.appendChild(thumbnailElement);
+
+    const videoInfoElement = document.createElement('div');
+    videoInfoElement.classList.add('video-info');
+
+    const titleElement = document.createElement('h3');
+    titleElement.textContent = video.title;
+    videoInfoElement.appendChild(titleElement);
+
+    const channelElement = document.createElement('p');
+    channelElement.textContent = `Channel: ${video.channelTitle}`;
+    videoInfoElement.appendChild(channelElement);
+
+    const viewsElement = document.createElement('p');
+    viewsElement.textContent = `Views: ${video.viewCount}`;
+    videoInfoElement.appendChild(viewsElement);
+
+    videoElement.appendChild(videoInfoElement);
+
+    videosContainer.appendChild(videoElement);
+  });
+}
+
+document.addEventListener('DOMContentLoaded', fetchPopularVideos);
+</script>
+</body>
+</html>

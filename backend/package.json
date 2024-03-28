@@ -1,0 +1,25 @@
+{
+  "dependencies": {
+    "axios": "^1.6.8",
+    "body-parser": "^1.20.2",
+    "express": "^4.19.1",
+    "mongodb": "^6.5.0",
+    "mongoose": "^8.2.3",
+    "twit": "^1.1.20"
+  },
+  "name": "isa-project-social-media-trends",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}

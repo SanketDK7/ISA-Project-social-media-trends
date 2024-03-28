@@ -34,8 +34,8 @@ async function fetchPopularVideos(apiKey, regionCode, videoCategoryId) {
 
 // Example usage: Fetch popular videos
 const apiKey = 'AIzaSyDGAv6ldzEjEr_PvnF_wfiRqiH9_u_4BCQ';
-const regionCode = 'US'; // Example: Fetch popular videos in the United States
-const videoCategoryId = '25'; // Example: Fetch popular music videos (category ID 10)
+const regionCode = 'IN'; // Example: Fetch popular videos in the United States
+const videoCategoryId = '10'; 
 fetchPopularVideos(apiKey, regionCode, videoCategoryId)
   .then(videos => {
     console.log('Popular videos:', videos);
