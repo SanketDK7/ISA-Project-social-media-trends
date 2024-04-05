@@ -4,4 +4,5 @@ const {fetchPopularVideos} = require('../controllers/youtube.controller.js');
 
 router.get('/popular', fetchPopularVideos);
 
+
 module.exports = router;
