@@ -1,5 +1,4 @@
 const axios = require('axios');
-const fs = require('fs');
 
 // Function to fetch popular videos from YouTube
 async function fetchPopularVideos(apiKey, regionCode, videoCategoryId) {
@@ -40,19 +39,6 @@ const videoCategoryId = '10';
 fetchPopularVideos(apiKey, regionCode, videoCategoryId)
   .then(videos => {
     console.log('Popular videos:', videos);
-   
-
-// Convert JSON data to a string
-const jsonString = JSON.stringify(videos);
-
-// Write data to a file
-fs.writeFile('data.json', jsonString, (err) => {
-    if (err) {
-        console.error('Error writing file:', err);
-        return;
-    }
-    console.log('Data has been written to file');
-});
   })
   .catch(error => {
     console.error('Error:', error);
