@@ -217,7 +217,7 @@
                                     </div>
                                 </div>
 
-                                <a href="/frontend/login.html" class="mil-button mil-arrow-place mil-btn-space">
+                                <a href="/frontend/login.html" onclick="toggleServicesSection()" class="mil-button mil-arrow-place mil-btn-space">
                                     <span>Login</span>
                                 </a>
                             </div>
@@ -229,7 +229,7 @@
 
 
                 <!-- services -->
-                <section class="mil-dark-bg">
+                <section id="services-section" class="mil-dark-bg" style="display: none;">
                     <div class="mi-invert-fix">
                         <div class="mil-animation-frame">
                             <div class="mil-animation mil-position-1 mil-scale" data-value-1="2.4" data-value-2="1.4" style="top: 300px; right: -100px"></div>
@@ -629,6 +629,17 @@
     <script src="js/ScrollTo.min.js"></script>
     <!-- ashley js -->
     <script src="js/main.js"></script>
+
+    <script>
+        function toggleServicesSection() {
+            var servicesSection = document.getElementById("services-section");
+            if (servicesSection.style.display === "none") {
+                servicesSection.style.display = "block";
+            } else {
+                servicesSection.style.display = "none";
+            }
+        }
+    </script>
 
 
 
