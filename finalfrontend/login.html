@@ -329,7 +329,7 @@ transform: rotateY(-180deg);
 
                         <div class="container">
                             <input id="signup_toggle" type="checkbox">
-                            <form class="form">
+                            <form class="form" action="http://localhost:3000/api/users" method="post">
                                 <div class="form_front">
                                     <div class="form_details">Login</div>
                                     <input type="text" class="input" placeholder="Username">
@@ -343,10 +343,10 @@ transform: rotateY(-180deg);
                                 </div>
                                 <div class="form_back">
                                     <div class="form_details">SignUp</div>
-                                    <input type="text" class="input" placeholder="Username">
-                                    <input type="email" class="input" placeholder="Email">
-                                    <input type="text" class="input" placeholder="Password">
-                                    <button class="btn">Signup</button>
+                                    <input type="text" id = "name" class="input" placeholder="Username" name = "username" required>
+                                    <input type="email" id = "email" class="input" placeholder="Email" name = "email" required>
+                                    <input type="password" id = "password" class="input" placeholder="Password" name = "password" required>
+                                    <button class="btn" onclick="alert('Account created successfully')">Signup</button>
                                     <span class="switch">Already have an account? 
                                         <label for="signup_toggle" class="signup_tog">
                                             Sign In
