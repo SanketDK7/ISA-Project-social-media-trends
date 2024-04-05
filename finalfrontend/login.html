@@ -17,6 +17,143 @@
     <!-- page name -->
     <title>ViralWave</title>
 
+    <style>
+        .container {
+            margin-top: 100px;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+.form {
+display: flex;
+justify-content: center;
+align-items: center;
+transform-style: preserve-3d;
+transition: all 1s ease;
+margin-bottom: -10vh;
+}
+
+.form .form_front {
+bottom: 35vh;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+gap: 20px;
+position: absolute;
+backface-visibility: hidden;
+padding: 65px 45px;
+border-radius: 15px;
+box-shadow: inset 2px 2px 10px rgba(0,0,0,1),
+inset -1px -1px 5px rgba(255, 255, 255, 0.6);
+}
+
+.form .form_back {
+bottom: 28vh;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+gap: 20px;
+position: absolute;
+backface-visibility: hidden;
+transform: rotateY(-180deg);
+padding: 65px 45px;
+border-radius: 15px;
+box-shadow: inset 2px 2px 10px rgba(0,0,0,1),
+inset -1px -1px 5px rgba(255, 255, 255, 0.6);
+}
+
+.form_details {
+font-size: 25px;
+font-weight: 600;
+padding-bottom: 10px;
+color: white;
+}
+
+.input {
+width: 245px;
+min-height: 45px;
+color: #fff;
+outline: none;
+transition: 0.35s;
+padding: 0px 7px;
+background-color: #212121;
+border-radius: 6px;
+border: 2px solid #212121;
+box-shadow: 6px 6px 10px rgba(0,0,0,1),
+1px 1px 10px rgba(255, 255, 255, 0.6);
+}
+
+.input::placeholder {
+color: #999;
+}
+
+.input:focus.input::placeholder {
+transition: 0.3s;
+opacity: 0;
+}
+
+.input:focus {
+transform: scale(1.05);
+box-shadow: 6px 6px 10px rgba(0,0,0,1),
+1px 1px 10px rgba(255, 255, 255, 0.6),
+inset 2px 2px 10px rgba(0,0,0,1),
+inset -1px -1px 5px rgba(255, 255, 255, 0.6);
+}
+
+.btn {
+padding: 10px 35px;
+cursor: pointer;
+background-color: #ff9800;
+border-radius: 6px;
+border: 2px solid #212121;
+box-shadow: 6px 6px 10px rgba(0,0,0,1),
+1px 1px 10px rgba(255, 255, 255, 0.6);
+color: #fff;
+font-size: 15px;
+font-weight: bold;
+transition: 0.35s;
+color: black;
+}
+
+.btn:hover {
+transform: scale(1.05);
+box-shadow: 6px 6px 10px rgba(0,0,0,1),
+1px 1px 10px rgba(255, 255, 255, 0.6),
+inset 2px 2px 10px rgba(0,0,0,1),
+inset -1px -1px 5px rgba(255, 255, 255, 0.6);
+}
+
+.btn:focus {
+transform: scale(1.05);
+box-shadow: 6px 6px 10px rgba(0,0,0,1),
+1px 1px 10px rgba(255, 255, 255, 0.6),
+inset 2px 2px 10px rgba(0,0,0,1),
+inset -1px -1px 5px rgba(255, 255, 255, 0.6);
+}
+
+.form .switch {
+font-size: 13px;
+color: white;
+}
+
+.form .switch .signup_tog {
+font-weight: 700;
+cursor: pointer;
+text-decoration: underline;
+}
+
+.container #signup_toggle {
+display: none;
+}
+
+.container #signup_toggle:checked + .form {
+transform: rotateY(-180deg);
+}
+    </style>
+
 </head>
 
 <body>
@@ -36,23 +173,6 @@
         </div>
         <!-- cursor end -->
 
-        <!-- preloader -->
-        <div class="mil-preloader">
-            <div class="mil-preloader-animation">
-                <div class="mil-pos-abs mil-animation-1">
-                    <p class="mil-h3 mil-muted mil-thin">Surfing</p>
-                    <p class="mil-h3 mil-muted">Social</p>
-                    <p class="mil-h3 mil-muted mil-thin">Waves</p>
-                </div>
-                <div class="mil-pos-abs mil-animation-2">
-                    <div class="mil-reveal-frame">
-                        <p class="mil-reveal-box"></p>
-                        <p class="mil-h3 mil-muted mil-thin">viralwave.com</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- preloader end -->
 
         <!-- scrollbar progress -->
         <div class="mil-progress-track">
@@ -206,172 +326,33 @@
                         <div class="mil-gradient"></div>
 
                         <div class="container">
-                            <div class="mil-banner-content mil-up">
-                                <div class="container">
-                                    <input id="signup_toggle" type="checkbox">
-                                    <form class="form">
-                                        <div class="form_front">
-                                            <div class="form_details">Login</div>
-                                            <input type="text" class="input" placeholder="Username">
-                                            <input type="text" class="input" placeholder="Password">
-                                            <button class="btn">Login</button>
-                                            <span class="switch">Don't have an account? 
-                                                <label for="signup_toggle" class="signup_tog">
-                                                    Sign Up
-                                                </label>
-                                            </span>
-                                        </div>
-                                        <div class="form_back">
-                                            <div class="form_details">SignUp</div>
-                                            <input type="text" class="input" placeholder="Firstname">
-                                            <input type="text" class="input" placeholder="Username">
-                                            <input type="text" class="input" placeholder="Password">
-                                            <input type="text" class="input" placeholder="Confirm Password">
-                                            <button class="btn">Signup</button>
-                                            <span class="switch">Already have an account? 
-                                                <label for="signup_toggle" class="signup_tog">
-                                                    Sign In
-                                                </label>
-                                            </span>
-                                        </div>
-                                    </form>
+                            <input id="signup_toggle" type="checkbox">
+                            <form class="form">
+                                <div class="form_front">
+                                    <div class="form_details">Login</div>
+                                    <input type="text" class="input" placeholder="Username">
+                                    <input type="text" class="input" placeholder="Password">
+                                    <button class="btn">Login</button>
+                                    <span class="switch">Don't have an account? 
+                                        <label for="signup_toggle" class="signup_tog">
+                                            Sign Up
+                                        </label>
+                                    </span>
                                 </div>
-
-
-                                <style>
-                                    .container {
-                                        margin-top: 100px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.form {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transform-style: preserve-3d;
-  transition: all 1s ease;
-}
-
-.form .form_front {
-    bottom: 160px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-  position: absolute;
-  backface-visibility: hidden;
-  padding: 65px 45px;
-  border-radius: 15px;
-  box-shadow: inset 2px 2px 10px rgba(0,0,0,1),
-  inset -1px -1px 5px rgba(255, 255, 255, 0.6);
-}
-
-.form .form_back {
-    bottom:65px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-  position: absolute;
-  backface-visibility: hidden;
-  transform: rotateY(-180deg);
-  padding: 65px 45px;
-  border-radius: 15px;
-  box-shadow: inset 2px 2px 10px rgba(0,0,0,1),
-  inset -1px -1px 5px rgba(255, 255, 255, 0.6);
-}
-
-.form_details {
-  font-size: 25px;
-  font-weight: 600;
-  padding-bottom: 10px;
-  color: white;
-}
-
-.input {
-  width: 245px;
-  min-height: 45px;
-  color: #fff;
-  outline: none;
-  transition: 0.35s;
-  padding: 0px 7px;
-  background-color: #212121;
-  border-radius: 6px;
-  border: 2px solid #212121;
-  box-shadow: 6px 6px 10px rgba(0,0,0,1),
-  1px 1px 10px rgba(255, 255, 255, 0.6);
-}
-
-.input::placeholder {
-  color: #999;
-}
-
-.input:focus.input::placeholder {
-  transition: 0.3s;
-  opacity: 0;
-}
-
-.input:focus {
-  transform: scale(1.05);
-  box-shadow: 6px 6px 10px rgba(0,0,0,1),
-  1px 1px 10px rgba(255, 255, 255, 0.6),
-  inset 2px 2px 10px rgba(0,0,0,1),
-  inset -1px -1px 5px rgba(255, 255, 255, 0.6);
-}
-
-.btn {
-  padding: 10px 35px;
-  cursor: pointer;
-  background-color: #212121;
-  border-radius: 6px;
-  border: 2px solid #212121;
-  box-shadow: 6px 6px 10px rgba(0,0,0,1),
-  1px 1px 10px rgba(255, 255, 255, 0.6);
-  color: #fff;
-  font-size: 15px;
-  font-weight: bold;
-  transition: 0.35s;
-}
-
-.btn:hover {
-  transform: scale(1.05);
-  box-shadow: 6px 6px 10px rgba(0,0,0,1),
-  1px 1px 10px rgba(255, 255, 255, 0.6),
-  inset 2px 2px 10px rgba(0,0,0,1),
-  inset -1px -1px 5px rgba(255, 255, 255, 0.6);
-}
-
-.btn:focus {
-  transform: scale(1.05);
-  box-shadow: 6px 6px 10px rgba(0,0,0,1),
-  1px 1px 10px rgba(255, 255, 255, 0.6),
-  inset 2px 2px 10px rgba(0,0,0,1),
-  inset -1px -1px 5px rgba(255, 255, 255, 0.6);
-}
-
-.form .switch {
-  font-size: 13px;
-  color: white;
-}
-
-.form .switch .signup_tog {
-  font-weight: 700;
-  cursor: pointer;
-  text-decoration: underline;
-}
-
-.container #signup_toggle {
-  display: none;
-}
-
-.container #signup_toggle:checked + .form {
-  transform: rotateY(-180deg);
-}
-                                </style>
+                                <div class="form_back">
+                                    <div class="form_details">SignUp</div>
+                                    <input type="text" class="input" placeholder="Username">
+                                    <input type="email" class="input" placeholder="Email">
+                                    <input type="text" class="input" placeholder="Password">
+                                    <button class="btn">Signup</button>
+                                    <span class="switch">Already have an account? 
+                                        <label for="signup_toggle" class="signup_tog">
+                                            Sign In
+                                        </label>
+                                    </span>
+                                </div>
+                            </form>
+                        </div>
                             </div>
                         </div>
                     </div>
