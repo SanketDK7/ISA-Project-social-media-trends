@@ -1,73 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Twitter Trends</title>
-<style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Twitter Trends</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
     body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #222; /* Dark background shade */
+      color: #ddd; /* Light text color */
     }
 
-    .container {
-        max-width: 800px;
-        margin: 20px auto;
-        padding: 20px;
-        background-color: #f9f9f9;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    canvas {
+      width: 1200px;
+      height: 600px; /* Increase the size of the canvas */
+      margin: 20px auto;
     }
-
-    h1 {
-        text-align: center;
-        margin-bottom: 20px;
-    }
-
-    ul {
-        list-style-type: none;
-        padding: 0;
-    }
-
-    li {
-        margin-bottom: 10px;
-    }
-
-    .trend {
-        background-color: #eaeaea;
-        padding: 10px;
-        border-radius: 5px;
-    }
-</style>
+  </style>
 </head>
 <body>
-<div class="container">
-    <h1>Twitter Trends</h1>
-    <ul id="trendsList"></ul>
-</div>
+  <canvas id="trends-chart"></canvas>
 
-<script>
-    const fetchTwitterTrends = async () => {
-        try {
-            const response = await fetch('http://localhost:3000/twitter/location-trends');
-            const trends = await response.json();
-            displayTrends(trends);
-        } catch (error) {
-            console.error('Error fetching Twitter Trends: ', error);
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    // Define the function to handle the Twitter API request
+    const getTwitterData = async () => {
+      const options = {
+        method: 'GET',
+        url: 'https://twitter-v24.p.rapidapi.com/trends/',
+        params: {
+          woeid: '1'
+        },
+        headers: {
+          'X-RapidAPI-Key': '1d06dddd4dmsh8413849ed6c1f03p14ef9bjsn327b5588cb81',
+          'X-RapidAPI-Host': 'twitter-v24.p.rapidapi.com'
         }
+      };
+
+      try {
+        const response = await axios.request(options);
+        const trends = response.data[0].trends; // Extracting trends from response
+        renderChart(trends);
+      } catch (error) {
+        console.error(error);
+      }
     };
 
-    const displayTrends = (trends) => {
-        const trendsList = document.getElementById('trendsList');
-        trends.forEach(trend => {
-            const listItem = document.createElement('li');
-            listItem.innerHTML = `<div class="trend">${trend.name}</div>`;
-            trendsList.appendChild(listItem);
-        });
+    // Function to render the chart
+    const renderChart = (trends) => {
+      const trendNames = trends.map(trend => trend.name);
+      const tweetVolumes = trends.map(trend => trend.tweet_volume || 0);
+      const tweetUrls = trends.map(trend => trend.url);
+
+      const ctx = document.getElementById('trends-chart').getContext('2d');
+      const chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: trendNames,
+          datasets: [{
+            label: 'Tweet Volume',
+            data: tweetVolumes,
+            backgroundColor: 'rgba(54, 162, 235, 0.6)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 3,
+            pointBackgroundColor: 'rgba(54, 162, 235, 1)',
+            pointRadius: 5,
+            pointHoverRadius: 7
+          }]
+        },
+        options: {
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: true
+              }
+            }]
+          },
+          legend: {
+            display: false // Hide the legend
+          }
+        }
+      });
+
+      // Add click event listener to the chart
+      ctx.canvas.addEventListener('click', function(evt) {
+        const activeBar = chart.getElementAtEvent(evt)[0];
+        if (activeBar) {
+          const tweetUrl = tweetUrls[activeBar._index];
+          if (tweetUrl) {
+            window.open(tweetUrl); // Open the tweet URL in a new window
+          }
+        }
+      });
     };
 
-    fetchTwitterTrends();
-</script>
+    // Fetch Twitter trends when the page loads
+    window.onload = () => {
+      getTwitterData();
+    };
+  </script>
 </body>
 </html>
