@@ -3,99 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Popular Posts from Reddit</title>
+    <title>Popular Posts</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
             margin: 0;
             padding: 0;
         }
 
         .container {
             max-width: 800px;
-            margin: 50px auto;
+            margin: 0 auto;
             padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
         h1 {
             text-align: center;
+        }
+
+        .post {
             margin-bottom: 20px;
-        }
-
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        li {
-            margin-bottom: 10px;
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 10px;
+            border: 1px solid #ccc;
+            padding: 10px;
         }
 
         .post-title {
-            font-weight: bold;
-            color: #333;
+            font-size: 18px;
             margin-bottom: 5px;
         }
 
-        .post-details {
-            font-size: 0.8em;
+        .post-author {
+            font-style: italic;
             color: #666;
         }
 
-        .error-message {
-            color: #c00;
-            font-style: italic;
+        .post-content {
+            margin-top: 5px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Popular Posts from Reddit</h1>
-        <ul id="postList"></ul>
-        <p class="error-message" id="errorMessage"></p>
+        <h1>Popular Posts</h1>
+        <div id="posts"></div>
     </div>
-
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
-        async function fetchPopularPosts() {
-            const options = {
-                method: 'GET',
-                url: 'https://reddit34.p.rapidapi.com/getPopularPosts',
-                params: { sort: 'new' },
-                headers: {
-                    'X-RapidAPI-Key': '1d06dddd4dmsh8413849ed6c1f03p14ef9bjsn327b5588cb81',
-                    'X-RapidAPI-Host': 'reddit34.p.rapidapi.com'
+        document.addEventListener('DOMContentLoaded', () => {
+            const postsContainer = document.getElementById('posts');
+
+            const fetchPopularPosts = async () => {
+                try {
+                    const response = await axios.get('/getPopularPosts'); // Change this URL if your server is hosted elsewhere
+                    const posts = response.data;
+                    posts.forEach(post => {
+                        const postDiv = document.createElement('div');
+                        postDiv.classList.add('post');
+                        postDiv.innerHTML = `
+                            <div class="post-title">${post.title}</div>
+                            <div class="post-author">Author: ${post.author}</div>
+                            <div class="post-content">${post.content}</div>
+                        `;
+                        postsContainer.appendChild(postDiv);
+                    });
+                } catch (error) {
+                    console.error('Error fetching popular posts:', error);
                 }
             };
 
-            try {
-                const response = await axios.request(options);
-                const posts = response.data;
-
-                const postList = document.getElementById('postList');
-                postList.innerHTML = '';
-
-                posts.forEach(post => {
-                    const listItem = document.createElement('li');
-                    listItem.innerHTML = `
-                        <div class="post-title">${post.title}</div>
-                        <div class="post-details">Author: ${post.author}, Score: ${post.score}</div>
-                    `;
-                    postList.appendChild(listItem);
-                });
-            } catch (error) {
-                console.error(error);
-                document.getElementById('errorMessage').textContent = 'An error occurred while fetching data from Reddit API';
-            }
-        }
-
-        fetchPopularPosts();
+            fetchPopularPosts();
+        });
     </script>
 </body>
 </html>
