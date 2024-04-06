@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const userRoute = require('./routes/user.route.js')
 const youtubeRoute = require('./routes/youtube.route.js')
 const twitterRoute = require('./routes/twitterRoute.js');
+const redditRoute = require('./routes/reddit.route.js');
 const User = require('./models/user.model.js');
 
 
@@ -16,6 +17,8 @@ app.use('/api/users', userRoute);
 app.use('/twitter', twitterRoute);
 
 app.use('/api/youtube', youtubeRoute);
+
+app.use('/reddit', redditRoute);
 
 app.get('/',(req,res)=>{
     res.send("Hello update");
