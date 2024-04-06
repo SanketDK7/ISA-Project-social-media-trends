@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trending YouTube Videos Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #222;
+        }
+
+        .container {
+
+            max-width: 950px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #333;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .chart-container {
+            position: relative;
+            margin: auto;
+            height: 500px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Trending YouTube Videos Chart</h1>
+        <div class="chart-container">
+            <canvas id="videoChart"></canvas>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        // Function to fetch popular videos from YouTube
+        async function fetchPopularVideos(apiKey, regionCode, videoCategoryId) {
+            try {
+                const response = await axios.get('https://www.googleapis.com/youtube/v3/videos', {
+                    params: {
+                        key: apiKey,
+                        chart: 'mostPopular',
+                        regionCode: regionCode,
+                        videoCategoryId: videoCategoryId,
+                        part: 'snippet,contentDetails,statistics',
+                        maxResults: 10,
+                    }
+                });
+
+                // Extract relevant data from API response
+                const videos = response.data.items.map(item => ({
+                    videoId: item.id,
+                    title: item.snippet.title,
+                    viewCount: parseInt(item.statistics.viewCount),
+                }));
+
+                return videos;
+            } catch (error) {
+                console.error('Error fetching popular videos:', error);
+                throw error;
+            }
+        }
+
+        // Function to open video in a new tab
+        function openVideo(videoId) {
+            window.open(`https://www.youtube.com/watch?v=${videoId}`, '_blank');
+        }
+
+        // Function to render the chart
+        async function renderChart() {
+            const apiKey = 'AIzaSyDGAv6ldzEjEr_PvnF_wfiRqiH9_u_4BCQ';
+            const regionCode = 'IN';
+            const videoCategoryId = '10'; 
+
+            try {
+                const videos = await fetchPopularVideos(apiKey, regionCode, videoCategoryId);
+
+                // Extract relevant data for the chart
+                const titles = videos.map(video => video.title);
+                const viewCounts = videos.map(video => video.viewCount);
+                const videoIds = videos.map(video => video.videoId);
+
+                // Create chart
+                const ctx = document.getElementById('videoChart').getContext('2d');
+                const myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: titles,
+                        datasets: [{
+                            label: 'View Count',
+                            data: viewCounts,
+                            backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        plugins: {
+                            legend: {
+                                display: false // Hide legend
+                            }
+                        },
+                        scales: {
+                            x: {
+                                ticks: {
+                                    display: false // Hide x-axis ticks
+                                }
+                            },
+                            y: {
+                                beginAtZero: true,
+                                color: '#fff',
+                                callback: function(value) {
+                                    return value.toLocaleString(); // Format view count with commas
+                                }
+                            }
+                        },
+                        onClick: function(event, elements) {
+                            if (elements.length > 0) {
+                                const index = elements[0].index;
+                                openVideo(videoIds[index]);
+                            }
+                        }
+                    }
+                });
+            } catch (error) {
+                console.error('Error rendering chart:', error);
+            }
+        }
+
+        // Call renderChart function to fetch data and render the chart
+        renderChart();
+    </script>
+</body>
+</html>

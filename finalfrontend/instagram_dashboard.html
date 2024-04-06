@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Instagram User Activity</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #111; /* Dark background color */
+    color: #fff; /* Text color */
+  }
+
+  .container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background: linear-gradient(45deg, #292929, #111); /* Gradient background */
+    border-radius: 20px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5); /* Box shadow */
+  }
+
+  h1 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .post {
+    margin-bottom: 40px;
+    padding: 20px;
+    border-radius: 20px;
+    background: linear-gradient(45deg, #1a1a1a, #333); /* Gradient background for posts */
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3); /* Box shadow */
+    transition: transform 0.3s ease; /* Transition effect */
+  }
+
+  .post:hover {
+    transform: translateY(-5px); /* Hover effect */
+  }
+
+  .post img,
+  .post video {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto 20px;
+    border-radius: 12px;
+    object-fit: cover; 
+    width: 100%; 
+    max-height: 300px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3); /* Box shadow */
+    transition: transform 0.3s ease; /* Transition effect */
+  }
+
+  .post img:hover,
+  .post video:hover {
+    transform: scale(1.05); /* Hover effect */
+  }
+
+  .post p {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #ccc; /* Text color */
+  }
+
+  .timestamp {
+    font-style: italic;
+    color: #999; /* Timestamp color */
+  }
+
+  .view-link {
+    display: block;
+    text-align: center;
+    color: #3498db;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .view-link:hover {
+    color: #2980b9;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Instagram User Activity</h1>
+  <div id="posts-container"></div>
+</div>
+
+<script>
+const apiUrl = 'https://graph.instagram.com/me/media';
+const accessToken = 'IGQWROYUs0WC05YS1BZAHBzT3FpcmdwemMtWVhVUV9LbGNCRmNoZAjBNWE44LVhvRk5ENkM4My1IMEdhdi1PTDlmdEdNSVB1Uk5LZA0Fia3hYZAS1BUTNEZAVFpZAko3bHNyYkRSN25XYWdWanBucU53eDJEZAWhjUExoNVEZD';
+const hashtag = '#love';
+
+async function getPostsByHashtag() {
+  try {
+    const response = await fetch(`${apiUrl}?access_token=${accessToken}&fields=id,caption,media_type,media_url,permalink,timestamp&limit=10&q=${encodeURIComponent(hashtag)}`);
+    const data = await response.json();
+    displayPosts(data.data);
+  } catch (error) {
+    console.error('Error fetching posts by hashtag:', error);
+  }
+}
+
+function displayPosts(posts) {
+  const postsContainer = document.getElementById('posts-container');
+  posts.forEach(post => {
+    const postElement = document.createElement('div');
+    postElement.classList.add('post');
+
+    const mediaType = post.media_type;
+    if (mediaType === 'IMAGE') {
+      const imageElement = document.createElement('img');
+      imageElement.src = post.media_url;
+      imageElement.alt = post.caption || 'Image';
+      postElement.appendChild(imageElement);
+    } else if (mediaType === 'VIDEO') {
+      const videoElement = document.createElement('video');
+      videoElement.src = post.media_url;
+      videoElement.controls = true;
+      postElement.appendChild(videoElement);
+    }
+
+    const captionElement = document.createElement('p');
+    captionElement.textContent = post.caption || 'No caption available';
+    postElement.appendChild(captionElement);
+
+    const timestampElement = document.createElement('p');
+    const timestamp = new Date(post.timestamp * 1000);
+    timestampElement.textContent = `Posted on: ${timestamp.toLocaleString()}`;
+    timestampElement.classList.add('timestamp');
+    postElement.appendChild(timestampElement);
+
+    const permalinkElement = document.createElement('a');
+    permalinkElement.href = post.permalink;
+    permalinkElement.textContent = 'View on Instagram';
+    permalinkElement.classList.add('view-link');
+    postElement.appendChild(permalinkElement);
+
+    postsContainer.appendChild(postElement);
+  });
+}
+
+document.addEventListener('DOMContentLoaded', getPostsByHashtag);
+</script>
+</body>
+</html>
