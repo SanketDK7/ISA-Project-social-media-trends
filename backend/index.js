@@ -3,7 +3,7 @@ const app = express()
 const mongoose = require('mongoose')
 const userRoute = require('./routes/user.route.js')
 const youtubeRoute = require('./routes/youtube.route.js')
-
+const twitterRoute = require('./routes/twitterRoute.js');
 const User = require('./models/user.model.js');
 
 
@@ -12,6 +12,8 @@ app.use(express.urlencoded({ extended: false }));
 
 //routes
 app.use('/api/users', userRoute);
+
+app.use('/twitter', twitterRoute);
 
 app.use('/api/youtube', youtubeRoute);
 
